@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=4.4">
 </head>
 <body>
 
@@ -38,23 +38,37 @@
       </div>
 
       <!-- Mobile menu trigger -->
-      <button class="mobile-toggle" aria-label="Toggle navigation">
+      <button class="mobile-toggle" id="mobileMenuToggle" aria-label="Toggle navigation" aria-expanded="false">
         <span></span>
         <span></span>
       </button>
     </nav>
+
+    <!-- Mobile Drawer Dropdown Menu -->
+    <div class="mobile-nav-menu" id="mobileNavMenu" aria-hidden="true">
+      <div class="mobile-nav-links">
+        <a href="#home" class="mobile-nav-link">Home</a>
+        <a href="#how-it-works" class="mobile-nav-link">How It Works</a>
+        <a href="#features" class="mobile-nav-link">Features</a>
+        <a href="#pricing" class="mobile-nav-link">Pricing</a>
+        <a href="#faq" class="mobile-nav-link">FAQ</a>
+      </div>
+      <div class="mobile-nav-cta">
+        <a href="#pricing" class="btn btn-pill-nav js-get-vali-free mobile-menu-btn">
+          <span>TRY VALI FREE</span>
+          <svg class="arrow-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+    </div>
   </header>
 
   <!-- ==================== 1. HERO SECTION (PURE GRADIENT BACKGROUND) ==================== -->
   <section id="home" class="hero-section">
-    <!-- Living Animated Sunset Mesh Gradient with Floating Aurora Blobs -->
-    <div class="hero-gradient-background" id="heroGradientBg">
-      <div class="gradient-blob blob-warm-gold"></div>
-      <div class="gradient-blob blob-sunset-magenta"></div>
-      <div class="gradient-blob blob-orchid-violet"></div>
-      <div class="gradient-blob blob-radiant-amber"></div>
-      <div class="gradient-mesh-overlay"></div>
-    </div>
+    <!-- Pure CSS Ambient Sunset Mesh Gradient (Blob Motion) -->
+    <div class="hero-gradient-background"></div>
 
     <div class="hero-content">
       <div class="eyebrow-wrapper reveal">
@@ -67,25 +81,141 @@
       </h1>
 
       <p class="hero-subtitle reveal stagger-2">
-        Take control of your time with Vali—the intelligent productivity app. Organize tasks,<br class="desktop-only">
-        track progress, and enter deep flow—without the overwhelm.
+        Take control of your time with Vali—the intelligent productivity app.<br class="desktop-only">
+        Organize tasks, track progress, and enter deep flow—without the overwhelm.
       </p>
 
       <div class="hero-cta-group reveal stagger-3">
-        <a href="#pricing" class="btn btn-pill-hero magnetic-btn js-get-vali-free">
+        <a href="#pricing" class="btn btn-pill-hero btn-pill-hero-light magnetic-btn js-get-vali-free">
           <span>TRY IT FOR FREE</span>
-          <svg class="arrow-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg class="btn-arrow-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="5" y1="12" x2="19" y2="12"></line>
             <polyline points="12 5 19 12 12 19"></polyline>
           </svg>
         </a>
+        <button type="button" class="btn btn-pill-hero btn-pill-hero-dark magnetic-btn js-open-email-modal" aria-label="Join our email list">
+          <span>JOIN EMAIL LIST</span>
+          <svg class="btn-mail-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+          </svg>
+        </button>
       </div>
 
-      <!-- Exact Transparent Hand Holding iPhone -->
+      <!-- Standalone iPhone 16 Pro with Animated Vali AI Chat Screen -->
       <div class="hero-showcase-container reveal stagger-4">
         <div class="hero-device-levitate-wrapper">
-          <img src="assets/exact/hero_hand_phone.webp" alt="Hand holding iPhone showcasing the Vali app" class="hero-exact-hand-img">
-          <div class="hero-glass-sweep-sheen"></div>
+          <div class="iphone-mockup-frame">
+            <!-- Hardware Buttons -->
+            <div class="phone-button button-action"></div>
+            <div class="phone-button button-vol-up"></div>
+            <div class="phone-button button-vol-down"></div>
+            <div class="phone-button button-power"></div>
+
+            <!-- Screen Surface -->
+            <div class="iphone-screen">
+              <!-- iOS Status Bar -->
+              <div class="ios-status-bar">
+                <span class="ios-time">9:41</span>
+                <div class="ios-dynamic-island">
+                  <div class="island-camera"></div>
+                  <div class="island-sensor"></div>
+                </div>
+                <div class="ios-status-icons">
+                  <svg class="ios-icon" viewBox="0 0 16 12" width="14" height="10" fill="currentColor">
+                    <rect x="0" y="8" width="2.5" height="4" rx="0.8"/>
+                    <rect x="4" y="5.5" width="2.5" height="6.5" rx="0.8"/>
+                    <rect x="8" y="3" width="2.5" height="9" rx="0.8"/>
+                    <rect x="12" y="0.5" width="2.5" height="11.5" rx="0.8"/>
+                  </svg>
+                  <svg class="ios-icon" viewBox="0 0 16 12" width="13" height="10" fill="currentColor">
+                    <path d="M8 9.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm-4.2-2.8a6 6 0 018.4 0l1-1a7.4 7.4 0 00-10.4 0l1 1zm-2.4-2.4a9.4 9.4 0 0113.2 0l1-1a10.8 10.8 0 00-15.2 0l1 1z"/>
+                  </svg>
+                  <svg class="ios-icon" viewBox="0 0 24 12" width="18" height="10" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <rect x="1" y="1" width="19" height="10" rx="3"/>
+                    <rect x="3" y="3" width="13" height="6" rx="1.5" fill="currentColor"/>
+                    <path d="M22 4.5v3" stroke-linecap="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Chat App Top Header -->
+              <div class="chat-app-header">
+                <div class="chat-header-user">
+                  <div class="chat-vali-avatar">
+                    <div class="vali-avatar-core">V</div>
+                  </div>
+                  <div class="chat-header-text">
+                    <div class="chat-header-title">
+                      <span>Vali Copilot</span>
+                      <span class="chat-status-dot"></span>
+                    </div>
+                    <span class="chat-header-subtitle">Flow & Energy Assistant</span>
+                  </div>
+                </div>
+                <div class="chat-header-badge">
+                  <span class="focus-pill-pulse">FLOW ACTIVE</span>
+                </div>
+              </div>
+
+              <!-- Animated Chat Conversation -->
+              <div class="chat-messages-container" id="heroChatContainer">
+                <div class="chat-timestamp">Today · Morning Flow Sync</div>
+
+                <!-- Bubble 1: Vali AI -->
+                <div class="chat-bubble chat-bubble-ai chat-step-1">
+                  <div class="bubble-sender-name">Vali AI</div>
+                  <p>Good morning Alex. You have 3 priority tasks and 2 calls today. Ready to plan your calm rhythm?</p>
+                </div>
+
+                <!-- Bubble 2: User -->
+                <div class="chat-bubble chat-bubble-user chat-step-2">
+                  <p>Protect my morning for deep work. Let's enter flow state.</p>
+                </div>
+
+                <!-- Typing indicator -->
+                <div class="chat-typing-indicator chat-step-typing">
+                  <div class="typing-dot"></div>
+                  <div class="typing-dot"></div>
+                  <div class="typing-dot"></div>
+                </div>
+
+                <!-- Bubble 3: Vali AI resolution with action card -->
+                <div class="chat-bubble chat-bubble-ai chat-step-3">
+                  <div class="bubble-sender-name">Vali AI</div>
+                  <p>Schedule harmonized. <strong>9:00 AM – 11:30 AM</strong> is locked for Deep Work. Distractions silenced.</p>
+                  
+                  <div class="chat-card-attachment">
+                    <div class="chat-card-icon-box">⚡</div>
+                    <div class="chat-card-info">
+                      <span class="chat-card-name">Deep Flow Sprint</span>
+                      <span class="chat-card-meta">25 min · Ambient Lo-Fi Active</span>
+                    </div>
+                    <span class="chat-card-pill">LOCKED IN</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Chat Bottom Input Bar -->
+              <div class="chat-bottom-bar">
+                <div class="chat-input-fake">
+                  <span class="chat-input-placeholder">Ask Vali to plan or silence...</span>
+                  <div class="chat-send-btn">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="12" y1="19" x2="12" y2="5"/>
+                      <polyline points="5 12 12 5 19 12"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- iOS Home Indicator -->
+              <div class="ios-home-bar"></div>
+
+              <!-- Diagonal Screen Glare -->
+              <div class="hero-glass-sweep-sheen"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -220,12 +350,8 @@
     <!-- ==================== 4. TESTIMONIALS MARQUEE (COMMUNITY LOVE) ==================== -->
     <section class="trusted-by-section testimonials-marquee-section">
       <div class="trusted-header reveal">
-        <div class="trusted-header-left">
-          <span class="trusted-label">Loved by 50,000+ builders & creators</span>
-        </div>
-        <div class="trusted-header-right">
-          <span class="trusted-sub">Join 50,000+ creators, founders, and teams using Vali daily · <span class="gold-stars">★★★★★</span> 4.9/5</span>
-        </div>
+        <h3 class="trusted-label">Loved by 50,000+ builders & creators</h3>
+        <p class="trusted-sub">Join 50,000+ creators, founders, and teams using Vali daily · <span class="gold-stars">★★★★★</span> 4.9/5</p>
       </div>
 
       <div class="logo-marquee-wrapper testimonials-marquee-wrapper reveal stagger-1">
@@ -778,9 +904,6 @@
 
     <!-- ==================== PRICING SECTION ==================== -->
     <section id="pricing" class="pricing-section">
-      <!-- Ambient breathing warmth mesh -->
-      <div class="pricing-ambient-glow"></div>
-      
       <div class="pricing-header reveal text-center">
         <span class="eyebrow-serif">Transparent Investment</span>
         <h2 class="section-heading-large">Simple Plans for Calmer Days</h2>
@@ -1119,6 +1242,53 @@
     </div>
   </footer>
 
-  <script src="app.js"></script>
+  <!-- ==================== JOIN EMAIL LIST MODAL ==================== -->
+  <div id="emailListModal" class="email-modal-backdrop" aria-hidden="true">
+    <div class="email-modal-card">
+      <button class="email-modal-close" id="closeEmailModal" aria-label="Close modal">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="email-modal-icon-badge">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+        </svg>
+      </div>
+
+      <h3 class="email-modal-title">Join the Vali Flow List</h3>
+      <p class="email-modal-desc">
+        Weekly curated essays on deep work, flow science, and early access to desktop & mobile updates. Zero spam, ever.
+      </p>
+
+      <form id="emailListForm" class="email-modal-form" onsubmit="return false;">
+        <div class="email-input-group">
+          <input type="email" id="emailInput" class="email-modal-input" placeholder="Enter your email address..." required autocomplete="email">
+          <button type="submit" class="email-modal-submit-btn">
+            <span>Join Now</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+      </form>
+
+      <div id="emailSuccessMessage" class="email-modal-success" style="display: none;">
+        <span class="success-check-icon">✓</span>
+        <div>
+          <strong>You're on the list!</strong>
+          <p>We've reserved your early invite. Check your inbox shortly for our deep work starter guide.</p>
+        </div>
+      </div>
+
+      <p class="email-modal-privacy">Joined by 12,000+ mindful builders. Unsubscribe anytime in one click.</p>
+    </div>
+  </div>
+
+  <script src="app.js?v=4.4"></script>
 </body>
 </html>

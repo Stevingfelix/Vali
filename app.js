@@ -112,18 +112,15 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --------------------------------------------------------------------------
-  // 5. HERO DEVICE 3D PARALLAX & LIVING GRADIENT MESH TRACKING
+  // 5. HERO DEVICE 3D PARALLAX TRACKING
   // --------------------------------------------------------------------------
   const heroDeviceWrapper = document.querySelector('.hero-device-levitate-wrapper');
-  const heroGradientBg = document.getElementById('heroGradientBg');
 
-  if (heroDeviceWrapper || heroGradientBg) {
+  if (heroDeviceWrapper) {
     let mouseX = 0;
     let mouseY = 0;
     let currentX = 0;
     let currentY = 0;
-    let gradX = 0;
-    let gradY = 0;
 
     window.addEventListener('mousemove', (e) => {
       const { innerWidth, innerHeight } = window;
@@ -132,24 +129,40 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
 
     function renderParallax() {
-      // Smooth lerp interpolation
       currentX += (mouseX - currentX) * 0.06;
       currentY += (mouseY - currentY) * 0.06;
 
-      if (heroDeviceWrapper) {
-        heroDeviceWrapper.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
-      }
-
-      // Hero gradient drifts in subtle opposing direction for layered optical depth
-      if (heroGradientBg) {
-        gradX += (-mouseX * 0.75 - gradX) * 0.04;
-        gradY += (-mouseY * 0.75 - gradY) * 0.04;
-        heroGradientBg.style.transform = `translate3d(calc(-50% + ${gradX}px), calc(-36% + ${gradY}px), 0)`;
-      }
-
+      heroDeviceWrapper.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
       requestAnimationFrame(renderParallax);
     }
     requestAnimationFrame(renderParallax);
+  }
+
+  // --------------------------------------------------------------------------
+  // HERO CHAT ANIMATION LOOP
+  // --------------------------------------------------------------------------
+  const heroChatContainer = document.getElementById('heroChatContainer');
+  if (heroChatContainer) {
+    const replayChat = () => {
+      const step1 = heroChatContainer.querySelector('.chat-step-1');
+      const step2 = heroChatContainer.querySelector('.chat-step-2');
+      const stepTyping = heroChatContainer.querySelector('.chat-step-typing');
+      const step3 = heroChatContainer.querySelector('.chat-step-3');
+
+      [step1, step2, stepTyping, step3].forEach(el => {
+        if (el) {
+          el.style.animation = 'none';
+          void el.offsetHeight; // trigger reflow
+        }
+      });
+
+      if (step1) step1.style.animation = 'chatBubblePop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both';
+      if (step2) step2.style.animation = 'chatBubblePop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 1.5s both';
+      if (stepTyping) stepTyping.style.animation = 'typingIndicatorFlow 1.6s ease 2.3s both';
+      if (step3) step3.style.animation = 'chatBubblePop 0.55s cubic-bezier(0.16, 1, 0.3, 1) 3.8s both';
+    };
+
+    setInterval(replayChat, 9500);
   }
 
   // --------------------------------------------------------------------------
@@ -163,9 +176,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalCards = cards.length;
     const angleStep = 360 / totalCards;
     
-    // Cylindrical radius in 3D perspective
-    const cardWidth = 135;
-    const radius = Math.round((cardWidth / 2) / Math.tan(Math.PI / totalCards)) + 120; // ~370px
+    // Cylindrical radius in 3D perspective (dynamic based on viewport)
+    function getRadius() {
+      const isMobile = window.innerWidth <= 640;
+      const isTablet = window.innerWidth <= 992;
+      const cardW = isMobile ? 82 : (isTablet ? 105 : 135);
+      const extraPad = isMobile ? 50 : (isTablet ? 80 : 120);
+      return Math.round((cardW / 2) / Math.tan(Math.PI / totalCards)) + extraPad;
+    }
 
     cards.forEach((card, i) => {
       card.dataset.baseAngle = (i * angleStep).toString();
@@ -196,6 +214,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Smooth Framer Motion spring physics / lerp
       currentRotation += (targetRotation - currentRotation) * 0.085;
+
+      const radius = getRadius();
 
       cards.forEach((card, i) => {
         const baseAngle = i * angleStep;
@@ -438,5 +458,109 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  // --------------------------------------------------------------------------
+  // 12. JOIN EMAIL LIST MODAL HANDLER
+  // --------------------------------------------------------------------------
+  const openEmailModalBtns = document.querySelectorAll('.js-open-email-modal');
+  const emailModal = document.getElementById('emailListModal');
+  const closeEmailModalBtn = document.getElementById('closeEmailModal');
+  const emailForm = document.getElementById('emailListForm');
+  const emailInput = document.getElementById('emailInput');
+  const emailSuccessMessage = document.getElementById('emailSuccessMessage');
+
+  if (emailModal) {
+    const openModal = () => {
+      emailModal.classList.add('active');
+      emailModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      if (emailInput) setTimeout(() => emailInput.focus(), 150);
+    };
+
+    const closeModal = () => {
+      emailModal.classList.remove('active');
+      emailModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (emailSuccessMessage) {
+        setTimeout(() => {
+          emailSuccessMessage.style.display = 'none';
+          if (emailForm) {
+            emailForm.style.display = 'block';
+            emailForm.reset();
+          }
+        }, 300);
+      }
+    };
+
+    openEmailModalBtns.forEach(btn => btn.addEventListener('click', openModal));
+    if (closeEmailModalBtn) closeEmailModalBtn.addEventListener('click', closeModal);
+
+    emailModal.addEventListener('click', (e) => {
+      if (e.target === emailModal) closeModal();
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && emailModal.classList.contains('active')) {
+        closeModal();
+      }
+    });
+
+    if (emailForm) {
+      emailForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const emailVal = emailInput ? emailInput.value.trim() : '';
+        if (emailVal && emailVal.includes('@')) {
+          emailForm.style.display = 'none';
+          if (emailSuccessMessage) {
+            emailSuccessMessage.style.display = 'flex';
+          }
+          setTimeout(() => {
+            closeModal();
+          }, 3200);
+        }
+      });
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // 13. MOBILE HAMBURGER MENU TOGGLE
+  // --------------------------------------------------------------------------
+  const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+  const mobileNavMenu = document.getElementById('mobileNavMenu');
+
+  if (mobileMenuToggle && mobileNavMenu) {
+    const toggleMenu = (e) => {
+      e.stopPropagation();
+      const isOpen = mobileNavMenu.classList.toggle('active');
+      mobileMenuToggle.classList.toggle('active');
+      mobileMenuToggle.setAttribute('aria-expanded', isOpen.toString());
+      mobileNavMenu.setAttribute('aria-hidden', (!isOpen).toString());
+    };
+
+    mobileMenuToggle.addEventListener('click', toggleMenu);
+
+    // Close menu when clicking any mobile link
+    const mobileLinks = mobileNavMenu.querySelectorAll('a');
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileNavMenu.classList.remove('active');
+        mobileMenuToggle.classList.remove('active');
+        mobileMenuToggle.setAttribute('aria-expanded', 'false');
+        mobileNavMenu.setAttribute('aria-hidden', 'true');
+      });
+    });
+
+    // Close when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!mobileMenuToggle.contains(e.target) && !mobileNavMenu.contains(e.target)) {
+        if (mobileNavMenu.classList.contains('active')) {
+          mobileNavMenu.classList.remove('active');
+          mobileMenuToggle.classList.remove('active');
+          mobileMenuToggle.setAttribute('aria-expanded', 'false');
+          mobileNavMenu.setAttribute('aria-hidden', 'true');
+        }
+      }
+    });
+  }
 
 });
