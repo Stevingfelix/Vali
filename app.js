@@ -112,27 +112,41 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --------------------------------------------------------------------------
-  // 5. HERO DEVICE 3D PARALLAX TRACKING
+  // 5. HERO DEVICE 3D PARALLAX & LIVING GRADIENT MESH TRACKING
   // --------------------------------------------------------------------------
   const heroDeviceWrapper = document.querySelector('.hero-device-levitate-wrapper');
-  if (heroDeviceWrapper) {
+  const heroGradientBg = document.getElementById('heroGradientBg');
+
+  if (heroDeviceWrapper || heroGradientBg) {
     let mouseX = 0;
     let mouseY = 0;
     let currentX = 0;
     let currentY = 0;
+    let gradX = 0;
+    let gradY = 0;
 
     window.addEventListener('mousemove', (e) => {
       const { innerWidth, innerHeight } = window;
       mouseX = (e.clientX - innerWidth / 2) / 45;
       mouseY = (e.clientY - innerHeight / 2) / 45;
-    });
+    }, { passive: true });
 
     function renderParallax() {
       // Smooth lerp interpolation
       currentX += (mouseX - currentX) * 0.06;
       currentY += (mouseY - currentY) * 0.06;
 
-      heroDeviceWrapper.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+      if (heroDeviceWrapper) {
+        heroDeviceWrapper.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+      }
+
+      // Hero gradient drifts in subtle opposing direction for layered optical depth
+      if (heroGradientBg) {
+        gradX += (-mouseX * 0.75 - gradX) * 0.04;
+        gradY += (-mouseY * 0.75 - gradY) * 0.04;
+        heroGradientBg.style.transform = `translate3d(calc(-50% + ${gradX}px), calc(-36% + ${gradY}px), 0)`;
+      }
+
       requestAnimationFrame(renderParallax);
     }
     requestAnimationFrame(renderParallax);
