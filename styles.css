@@ -1956,17 +1956,17 @@ img {
   height: 195px;
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.14);
-  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: none;
+  border: 1px solid rgba(0, 0, 0, 0.07);
   backface-visibility: hidden;
-  transition: box-shadow 0.3s ease, filter 0.3s ease;
+  transition: border-color 0.3s ease, filter 0.3s ease;
   background: #f0f0f0;
 }
 
 .arc-card:hover {
-  filter: brightness(1.08) drop-shadow(0 0 15px rgba(255, 120, 180, 0.3));
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.25);
-  border-color: rgba(255, 255, 255, 0.95);
+  filter: brightness(1.05);
+  box-shadow: none;
+  border-color: rgba(0, 0, 0, 0.18);
 }
 
 .arc-user-photo {
@@ -3580,7 +3580,8 @@ img {
   }
   
   .arc-gallery-wrapper {
-    height: 250px;
+    height: 190px;
+    margin: 20px auto 10px;
     perspective: 750px;
   }
 
@@ -3594,5 +3595,6 @@ img {
     width: 82px;
     height: 120px;
     border-radius: 12px;
+    box-shadow: none !important;
   }
 }
