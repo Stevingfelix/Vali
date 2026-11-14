@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vali — Work Smarter, Not Harder</title>
+  <title>Vali — The Calm Way to Do Your Best Work</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=4.6">
+  <link rel="stylesheet" href="styles.css?v=5.5">
 </head>
 <body>
 
@@ -269,9 +269,6 @@
 
     <!-- ==================== HOW IT WORKS: 3 STEPS TO CALM FOCUS ==================== -->
     <section id="how-it-works" class="how-it-works-section">
-      <!-- Ambient background mesh warmth -->
-      <div class="how-ambient-glow"></div>
-
       <div class="how-it-works-header reveal text-center">
         <span class="eyebrow-serif">Seamless Onboarding</span>
         <h2 class="section-heading-large">Up and running in minutes</h2>
@@ -940,7 +937,7 @@
           </div>
 
           <div class="plan-cta-box">
-            <a href="#trial" class="btn btn-pricing-outline magnetic-btn">
+            <a href="#trial" class="btn btn-pricing-outline magnetic-btn js-open-checkout" data-plan="starter">
               <span>GET STARTED FREE</span>
               <svg class="arrow-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </a>
@@ -977,7 +974,7 @@
           </div>
 
           <div class="plan-cta-box">
-            <a href="#trial" class="btn btn-pricing-featured magnetic-btn">
+            <a href="#trial" class="btn btn-pricing-featured magnetic-btn js-open-checkout" data-plan="pro">
               <span>START 14-DAY FREE TRIAL</span>
               <svg class="arrow-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </a>
@@ -1010,7 +1007,7 @@
           </div>
 
           <div class="plan-cta-box">
-            <a href="#trial" class="btn btn-pricing-outline magnetic-btn">
+            <a href="#trial" class="btn btn-pricing-outline magnetic-btn js-open-checkout" data-plan="teams">
               <span>TRY TEAMS FREE</span>
               <svg class="arrow-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </a>
@@ -1245,50 +1242,133 @@
   <!-- ==================== JOIN EMAIL LIST MODAL ==================== -->
   <div id="emailListModal" class="email-modal-backdrop" aria-hidden="true">
     <div class="email-modal-card">
-      <button class="email-modal-close" id="closeEmailModal" aria-label="Close modal">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-      </button>
-
-      <div class="email-modal-icon-badge">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-        </svg>
+      <!-- Top Image Header with Overlay and Typography (like Step Into Daily Flow State) -->
+      <div class="email-modal-header-hero">
+        <img src="assets/exact/email_modal_flow.jpg" alt="Join Flow List" class="email-modal-bg-img">
+        <div class="email-modal-header-overlay"></div>
+        <button class="email-modal-close" id="closeEmailModal" aria-label="Close modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+        <div class="email-modal-hero-content">
+          <span class="email-modal-eyebrow">Effortless Momentum</span>
+          <h3 class="email-modal-title">Join the Vali Flow List</h3>
+          <p class="email-modal-desc">
+            Weekly curated essays on deep work, flow science, and early access to desktop & mobile updates.
+          </p>
+        </div>
       </div>
 
-      <h3 class="email-modal-title">Join the Vali Flow List</h3>
-      <p class="email-modal-desc">
-        Weekly curated essays on deep work, flow science, and early access to desktop & mobile updates. Zero spam, ever.
-      </p>
+      <!-- Lower Form Body -->
+      <div class="email-modal-body">
+        <form id="emailListForm" class="email-modal-form" onsubmit="return false;">
+          <div class="email-input-group">
+            <input type="email" id="emailInput" class="email-modal-input" placeholder="Enter your email address..." required autocomplete="email">
+            <button type="submit" class="email-modal-submit-btn">
+              <span>Join Now</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </div>
+        </form>
 
-      <form id="emailListForm" class="email-modal-form" onsubmit="return false;">
-        <div class="email-input-group">
-          <input type="email" id="emailInput" class="email-modal-input" placeholder="Enter your email address..." required autocomplete="email">
-          <button type="submit" class="email-modal-submit-btn">
-            <span>Join Now</span>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <div id="emailSuccessMessage" class="email-modal-success" style="display: none;">
+          <span class="success-check-icon">✓</span>
+          <div>
+            <strong>You're on the list!</strong>
+            <p>We've reserved your early invite. Check your inbox shortly for our deep work starter guide.</p>
+          </div>
+        </div>
+
+        <p class="email-modal-privacy">Joined by 12,000+ mindful builders. Unsubscribe anytime in one click.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PLAN CHECKOUT / ACTIVATION MODAL ==================== -->
+  <div id="planCheckoutModal" class="checkout-modal-backdrop" aria-hidden="true">
+    <div class="checkout-modal-card">
+      <!-- Top Image Header with Overlay and Typography (like Email Modal & Flow State banner) -->
+      <div class="checkout-modal-header-hero">
+        <img src="assets/exact/checkout_modal_header.jpg" alt="Activate Vali Workspace" class="checkout-modal-bg-img">
+        <div class="checkout-modal-header-overlay"></div>
+        <button class="checkout-modal-close" id="closeCheckoutModal" aria-label="Close modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+        <div class="checkout-modal-hero-content">
+          <span class="checkout-modal-eyebrow">Seamless Workspace Setup</span>
+          <h3 class="checkout-modal-title" id="checkoutModalHeadline">Activate Vali Pro</h3>
+          <p class="checkout-modal-subtitle" id="checkoutModalSubhead">Full 14-day unrestricted trial. Set up your calm workspace in under 60 seconds.</p>
+        </div>
+      </div>
+
+      <!-- Lower Form Body -->
+      <div class="checkout-modal-body">
+        <!-- Plan Selector Tabs -->
+        <div class="checkout-plan-selector">
+          <button type="button" class="checkout-tab-btn" data-plan="starter" id="tabStarter">Starter ($0)</button>
+          <button type="button" class="checkout-tab-btn active" data-plan="pro" id="tabPro">Vali Pro ($12/mo)</button>
+          <button type="button" class="checkout-tab-btn" data-plan="teams" id="tabTeams">Vali Teams ($24/mo)</button>
+        </div>
+
+        <!-- Plan Summary Box -->
+        <div class="checkout-plan-card-summary">
+          <div class="checkout-summary-top">
+            <span class="checkout-summary-name" id="modalPlanName">Vali Pro</span>
+            <div class="checkout-price-group">
+              <span class="checkout-summary-price" id="modalPlanPrice">$12 / mo</span>
+              <span class="checkout-billing-badge" id="modalBillingBadge" style="display: none;">Save 25% Annually</span>
+            </div>
+          </div>
+          <ul class="checkout-summary-features" id="modalPlanFeatures">
+            <li>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Full 14-day unrestricted trial</span>
+            </li>
+            <li>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Unlimited calendar sync & deep flow sessions</span>
+            </li>
+            <li>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Cancel anytime with zero lock-in</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Signup / Checkout Form -->
+        <form id="checkoutForm" class="checkout-form" onsubmit="return false;">
+          <input type="email" id="checkoutEmailInput" class="checkout-input" placeholder="Enter your work email address..." required autocomplete="email">
+          <button type="submit" class="checkout-submit-btn" id="modalSubmitBtn">
+            <span>Start 14-Day Free Trial</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <line x1="5" y1="12" x2="19" y2="12"></line>
               <polyline points="12 5 19 12 12 19"></polyline>
             </svg>
           </button>
-        </div>
-      </form>
+        </form>
 
-      <div id="emailSuccessMessage" class="email-modal-success" style="display: none;">
-        <span class="success-check-icon">✓</span>
-        <div>
-          <strong>You're on the list!</strong>
-          <p>We've reserved your early invite. Check your inbox shortly for our deep work starter guide.</p>
+        <!-- Success View -->
+        <div id="checkoutSuccessView" class="checkout-success-view" style="display: none;">
+          <div class="checkout-success-icon">✓</div>
+          <h4 style="font-size: 1.15rem; font-weight: 800; color: #111111; margin: 0;">Workspace Activated!</h4>
+          <p style="font-size: 0.85rem; color: #666666; margin: 0; line-height: 1.5;">
+            We've sent your instant access magic link to <strong id="confirmedEmail" style="color: #111111;">your email</strong>. Download Vali to begin your first deep flow session.
+          </p>
         </div>
+
+        <p class="checkout-guarantee-note">🔒 No credit card required to begin · Protected by 256-bit encryption.</p>
       </div>
-
-      <p class="email-modal-privacy">Joined by 12,000+ mindful builders. Unsubscribe anytime in one click.</p>
     </div>
   </div>
 
-  <script src="app.js?v=4.6"></script>
+  <script src="app.js?v=5.5"></script>
 </body>
 </html>

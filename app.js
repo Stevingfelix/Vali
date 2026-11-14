@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   bentoCards.forEach(card => {
     card.addEventListener('mousemove', (e) => {
+      if (window.innerWidth <= 768) return; // Disable tilt on mobile so cards never bleed off-screen
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
@@ -358,6 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const annualNotes = document.querySelectorAll('.billing-annual-note');
 
   let isAnnual = false;
+  let currentModalPlanKey = 'pro';
 
   function setBillingMode(annual) {
     isAnnual = annual;
@@ -385,6 +387,10 @@ document.addEventListener('DOMContentLoaded', () => {
     annualNotes.forEach(note => {
       note.style.display = isAnnual ? 'block' : 'none';
     });
+
+    if (typeof updateModalPlan === 'function') {
+      updateModalPlan(currentModalPlanKey);
+    }
   }
 
   if (billingToggleBtn) {
@@ -562,5 +568,171 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // --------------------------------------------------------------------------
+  // 14. PLAN CHECKOUT & TRIAL ACTIVATION MODAL
+  // --------------------------------------------------------------------------
+  const planCheckoutModal = document.getElementById('planCheckoutModal');
+  const closeCheckoutModal = document.getElementById('closeCheckoutModal');
+  const checkoutForm = document.getElementById('checkoutForm');
+  const checkoutEmailInput = document.getElementById('checkoutEmailInput');
+  const checkoutSuccessView = document.getElementById('checkoutSuccessView');
+  const confirmedEmail = document.getElementById('confirmedEmail');
+  const modalPlanName = document.getElementById('modalPlanName');
+  const modalPlanPrice = document.getElementById('modalPlanPrice');
+  const modalPlanFeatures = document.getElementById('modalPlanFeatures');
+  const modalSubmitBtn = document.getElementById('modalSubmitBtn');
+  const checkoutTabs = document.querySelectorAll('.checkout-tab-btn');
+  const checkoutTriggers = document.querySelectorAll('.js-open-checkout');
+
+  const planDetails = {
+    starter: {
+      name: 'Starter',
+      price: '$0 / forever',
+      features: [
+        'Full access to essential day planning',
+        'Up to 3 calendar connections',
+        'Native Mac & iPhone apps with offline mode'
+      ],
+      buttonText: 'Start Free with Starter'
+    },
+    pro: {
+      name: 'Vali Pro',
+      price: '$12 / mo',
+      annualPrice: '$9 / mo (billed annually)',
+      features: [
+        'Full 14-day unrestricted trial',
+        'Unlimited calendar sync & AI dynamic rescheduling',
+        'Distraction-Free Focus Shield & ambient soundscapes'
+      ],
+      buttonText: 'Start 14-Day Free Trial'
+    },
+    teams: {
+      name: 'Vali Teams',
+      price: '$24 / user / mo',
+      annualPrice: '$19 / user / mo (billed annually)',
+      features: [
+        '14-day squad trial for up to 10 seats',
+        'Shared schedule transparency & team focus rooms',
+        'Centralized billing, SAML SSO & dedicated support'
+      ],
+      buttonText: 'Start Free Teams Trial'
+    }
+  };
+
+  function updateModalPlan(planKey) {
+    if (planKey) currentModalPlanKey = planKey;
+    const plan = planDetails[currentModalPlanKey] || planDetails.pro;
+
+    const modalHeadline = document.getElementById('checkoutModalHeadline');
+    if (modalHeadline) modalHeadline.textContent = `Activate ${plan.name}`;
+    if (modalPlanName) modalPlanName.textContent = plan.name;
+    if (modalPlanPrice) {
+      modalPlanPrice.textContent = (isAnnual && plan.annualPrice) ? plan.annualPrice : plan.price;
+    }
+
+    const modalBillingBadge = document.getElementById('modalBillingBadge');
+    if (modalBillingBadge) {
+      modalBillingBadge.style.display = (isAnnual && currentModalPlanKey !== 'starter') ? 'inline-block' : 'none';
+    }
+
+    const tabPro = document.getElementById('tabPro');
+    const tabTeams = document.getElementById('tabTeams');
+    if (tabPro) tabPro.textContent = isAnnual ? 'Vali Pro ($9/mo)' : 'Vali Pro ($12/mo)';
+    if (tabTeams) tabTeams.textContent = isAnnual ? 'Vali Teams ($19/mo)' : 'Vali Teams ($24/mo)';
+
+    if (modalPlanFeatures && plan.features) {
+      modalPlanFeatures.innerHTML = plan.features.map(f => `
+        <li>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>${f}</span>
+        </li>
+      `).join('');
+    }
+
+    if (modalSubmitBtn) {
+      const span = modalSubmitBtn.querySelector('span');
+      if (span) span.textContent = plan.buttonText;
+    }
+
+    checkoutTabs.forEach(tab => {
+      if (tab.dataset.plan === currentModalPlanKey) {
+        tab.classList.add('active');
+      } else {
+        tab.classList.remove('active');
+      }
+    });
+  }
+
+  function openCheckout(preferredPlan = 'pro') {
+    if (!planCheckoutModal) return;
+    updateModalPlan(preferredPlan);
+    if (checkoutForm) checkoutForm.style.display = 'flex';
+    if (checkoutSuccessView) checkoutSuccessView.style.display = 'none';
+    if (checkoutEmailInput) checkoutEmailInput.value = '';
+
+    planCheckoutModal.classList.add('active');
+    planCheckoutModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+
+    setTimeout(() => {
+      if (checkoutEmailInput) checkoutEmailInput.focus();
+    }, 120);
+  }
+
+  const closeCheckout = () => {
+    if (!planCheckoutModal) return;
+    planCheckoutModal.classList.remove('active');
+    planCheckoutModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  };
+
+  checkoutTriggers.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const plan = btn.dataset.plan || 'pro';
+      openCheckout(plan);
+    });
+  });
+
+  checkoutTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const plan = tab.dataset.plan || 'pro';
+      updateModalPlan(plan);
+    });
+  });
+
+  if (closeCheckoutModal) {
+    closeCheckoutModal.addEventListener('click', closeCheckout);
+  }
+
+  if (planCheckoutModal) {
+    planCheckoutModal.addEventListener('click', (e) => {
+      if (e.target === planCheckoutModal) {
+        closeCheckout();
+      }
+    });
+  }
+
+  if (checkoutForm) {
+    checkoutForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = checkoutEmailInput ? checkoutEmailInput.value.trim() : '';
+      if (email && email.includes('@')) {
+        checkoutForm.style.display = 'none';
+        if (confirmedEmail) confirmedEmail.textContent = email;
+        if (checkoutSuccessView) checkoutSuccessView.style.display = 'flex';
+        setTimeout(() => {
+          closeCheckout();
+        }, 3600);
+      }
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && planCheckoutModal && planCheckoutModal.classList.contains('active')) {
+      closeCheckout();
+    }
+  });
 
 });
